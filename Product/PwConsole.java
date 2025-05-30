@@ -21,11 +21,12 @@
     private boolean checkPW() {
         for (int i = 0; i < MAX_PW_ATTEMPTS; i++) {
             String pwInput = scanner.nextLine();
-            if (pwManager.load(pwInput) && pwManager.checkMasterPw(pwInput)) {
+            if (pwManager.loadAndDecrypt(pwInput) && pwManager.checkMasterPw(pwInput)) {
                 newUser = 1;
                 return true;
             }
             System.out.println("Wrong master password! Try again.");
+            scanner.nextLine();
         }
         System.out.println("Too many failed attempts!\nPassword manager closing...");
         return false;
@@ -79,9 +80,9 @@
                 System.out.println("Wrong input!");
             }
 
-            System.out.println("\n\nPress ENTER to continue.");
+
             scanner.nextLine();
-        
+
         }
     }
     //lists all entries
@@ -129,6 +130,7 @@
         String siteURL = scanner.nextLine();
 
         pwManager.addPwInfo(title, username, password, siteURL); //adding the info
+        System.out.println("Entry successfully added!");
     }
 
     //this lists out all the commands if a user forgot one
@@ -204,7 +206,7 @@
     }
     //saves all entries to pwManager.data
     private void saveAllPwInfos() {
-        if (pwManager.save()) {
+        if (pwManager.encryptAndSave()) {
             System.out.println("Saved successfully.");
             return;
         }

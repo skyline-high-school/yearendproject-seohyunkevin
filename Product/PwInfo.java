@@ -1,4 +1,6 @@
-public class PwInfo {
+import java.io.Serializable;
+
+public class PwInfo implements Serializable {
    private String title;
    private String username;
    private String password;
